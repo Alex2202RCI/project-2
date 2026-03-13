@@ -3,8 +3,8 @@ import { Company } from '@/types';
 export const companies: Company[] = [
   {
     id: 'comp-1',
-    name: 'RC Investment Fund',
-    type: 'Инвестор',
+    name: 'Fund "RC-Investment" ',
+    type: 'Управляющая компания',
     country: 'Россия',
     description: 'Инвестиционный фонд, специализирующийся на проектах в странах Юго-Восточной Азии',
     contact: {
@@ -17,7 +17,7 @@ export const companies: Company[] = [
   {
     id: 'comp-2',
     name: 'Ruma Organic Company',
-    type: 'Оператор',
+    type: 'Дочерняя компания',
     country: 'Мьянма',
     description: 'Производитель органической сельскохозяйственной продукции',
     contact: {
@@ -29,7 +29,7 @@ export const companies: Company[] = [
   },
   {
     id: 'comp-3',
-    name: 'Aung Than Htike Agriculture Development CO.LTD',
+    name: 'Myanmar AnBang Investment Group Co., Ltd',
     type: 'Партнер',
     country: 'Мьянма',
     description: 'Местная компания по развитию сельского хозяйства',
@@ -43,9 +43,9 @@ export const companies: Company[] = [
   {
     id: 'comp-4',
     name: 'RC-United Mining Company (RCM)',
-    type: 'Оператор',
+    type: 'Дочерняя компания',
     country: 'Мьянма',
-    description: 'Совместная горнодобывающая компания (51% RC, 49% местный партнер)',
+    description: 'Совместная горнодобывающая компания (51% RC, 49% местный партнер МЭК)',
     contact: {
       email: 'rcm@mining.mm',
       phone: '+95 2 456 7890',
@@ -55,10 +55,10 @@ export const companies: Company[] = [
   },
   {
     id: 'comp-5',
-    name: 'MSG',
-    type: 'Партнер',
+    name: 'Everest Unites mining company ltd',
+    type: 'Дочерняя компания',
     country: 'Мьянма',
-    description: 'Местный партнер по горнодобывающим проектам',
+    description: 'Совместная горнодобывающая компания с МЭК',
     contact: {
       email: 'contact@msg.mm',
       phone: '+95 2 567 8901',
@@ -68,23 +68,23 @@ export const companies: Company[] = [
   },
   {
     id: 'comp-6',
-    name: 'CNMC (China Nonferrous Metal Mining Group)',
-    type: 'Партнер',
-    country: 'Китай',
-    description: 'Китайская горнодобывающая корпорация',
+    name: 'RC & Star mining company ltd',
+    type: 'Дочерняя компания',
+    country: 'Мьянма',
+    description: 'Совместная горнодобывающая компания с МЭК',
     contact: {
       email: 'info@cnmc.com.cn',
       phone: '+86 10 1234 5678',
-      address: 'Beijing, China',
+      address: 'Yangon, Myanmar',
     },
     projects: ['proj-2'],
   },
   {
     id: 'comp-7',
-    name: 'Myanmar Metals',
+    name: 'Мьянманская экономическая корпорация',
     type: 'Госкомпания Мьянмы',
     country: 'Мьянма',
-    description: 'Государственная горнодобывающая компания',
+    description: 'Государственная компания',
     contact: {
       email: 'info@myanmar-metals.gov.mm',
       phone: '+95 1 678 9012',
@@ -107,8 +107,8 @@ export const companies: Company[] = [
   },
   {
     id: 'comp-9',
-    name: 'DICA (Directorate of Investment and Company Administration)',
-    type: 'Министерство/Ведомство',
+    name: 'RC PLATFORM GROUP COMPANY LIMITED',
+    type: 'Дочерняя компания',
     country: 'Мьянма',
     description: 'Управление по инвестициям и администрированию компаний',
     contact: {
