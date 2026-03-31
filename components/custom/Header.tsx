@@ -21,7 +21,7 @@ export function Header() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold text-slate-900">
-            Операционный центр
+            Операционный центр проектов в Республике Союз Мьянма
           </h2>
         </div>
 

@@ -2,7 +2,7 @@
 
 import { MapPoint } from '@/types';
 import { Card } from '@/components/ui/card';
-import { MapPin, Factory, Mountain, Anchor, Warehouse, TruckIcon } from 'lucide-react';
+import { Factory, Mountain, Anchor, Warehouse, TruckIcon } from 'lucide-react';
 import { StatusBadge } from './StatusBadge';
 
 interface MyanmarMapProps {
@@ -25,14 +25,6 @@ const majorCities = [
   { name: 'Mawlamyine', lat: 16.4919, lng: 97.6278 },
   { name: 'Pathein', lat: 16.7791, lng: 94.7325 },
   { name: 'Myitkyina', lat: 25.3833, lng: 97.3964 },
-];
-
-const regions = [
-  { name: 'KACHIN', lat: 25.5, lng: 97.0 },
-  { name: 'SHAN', lat: 21.5, lng: 98.5 },
-  { name: 'SAGAING', lat: 23.0, lng: 95.5 },
-  { name: 'MANDALAY', lat: 21.5, lng: 96.0 },
-  { name: 'YANGON', lat: 17.0, lng: 96.2 },
 ];
 
 export function MyanmarMap({ points, onPointClick }: MyanmarMapProps) {

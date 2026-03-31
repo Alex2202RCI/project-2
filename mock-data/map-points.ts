@@ -3,7 +3,7 @@ import { MapPoint } from '@/types';
 export const mapPoints: MapPoint[] = [
   {
     id: 'map-1',
-    name: 'Mobile Factory Ruma',
+    name: 'Завод удобрений в Нейпьидо',
     type: 'factory',
     coordinates: {
       lat: 16.8661,
@@ -11,11 +11,11 @@ export const mapPoints: MapPoint[] = [
     },
     projectId: 'proj-1',
     status: 'Активен',
-    description: 'Мобильная фабрика по производству органических удобрений',
+    description: 'Фабрика по производству органических удобрений и биопрепаратов',
   },
   {
     id: 'map-2',
-    name: 'Tagaung Taung Nickel Mine',
+    name: 'Геологоразведка и добыча РЗМ',
     type: 'mine',
     coordinates: {
       lat: 23.0866,
@@ -23,11 +23,11 @@ export const mapPoints: MapPoint[] = [
     },
     projectId: 'proj-2',
     status: 'Активен',
-    description: 'Никелевое месторождение',
+    description: 'Разработка месторождения бериллия',
   },
   {
     id: 'map-3',
-    name: 'Bawdwin Mine',
+    name: 'Торговый дом',
     type: 'mine',
     coordinates: {
       lat: 23.2733,
@@ -35,11 +35,11 @@ export const mapPoints: MapPoint[] = [
     },
     projectId: 'proj-3',
     status: 'Активен',
-    description: 'Месторождение свинца, цинка и серебра',
+    description: 'Организация и строительство импортно-экспортного хаба',
   },
   {
     id: 'map-4',
-    name: 'Thilawa SEZ Factory',
+    name: 'Рисовый проект',
     type: 'factory',
     coordinates: {
       lat: 16.7050,
@@ -51,7 +51,7 @@ export const mapPoints: MapPoint[] = [
   },
   {
     id: 'map-5',
-    name: 'Yangon Port',
+    name: 'Завод удобрений Иеравади',
     type: 'port',
     coordinates: {
       lat: 16.7700,
@@ -63,7 +63,7 @@ export const mapPoints: MapPoint[] = [
   },
   {
     id: 'map-6',
-    name: 'Organic Fertilizer Plant',
+    name: 'Центр единоборств',
     type: 'factory',
     coordinates: {
       lat: 21.9588,
@@ -71,7 +71,7 @@ export const mapPoints: MapPoint[] = [
     },
     projectId: 'proj-6',
     status: 'Планирование',
-    description: 'Завод органических удобрений (планируется)',
+    description: 'Завод по производству органических удобрений',
   },
   {
     id: 'map-7',
@@ -83,11 +83,11 @@ export const mapPoints: MapPoint[] = [
     },
     projectId: 'proj-7',
     status: 'Активен',
-    description: 'Исследовательский центр сельскохозяйственных технологий',
+    description: 'Исследовательский центр по сельскохозяйственным технологиям',
   },
   {
     id: 'map-8',
-    name: 'Monosilicic Acid Facility',
+    name: 'Monosilicic Acid Production',
     type: 'factory',
     coordinates: {
       lat: 16.8500,
@@ -99,7 +99,7 @@ export const mapPoints: MapPoint[] = [
   },
   {
     id: 'map-9',
-    name: 'Cement Plant',
+    name: 'Cement Plant Upgrade',
     type: 'factory',
     coordinates: {
       lat: 20.1489,
@@ -107,11 +107,11 @@ export const mapPoints: MapPoint[] = [
     },
     projectId: 'proj-9',
     status: 'Активен',
-    description: 'Цементный завод (модернизация)',
+    description: 'Модернизация цементного завода',
   },
   {
     id: 'map-10',
-    name: 'Mobile Unit Site 1',
+    name: 'Mobile Unit Deployment',
     type: 'factory',
     coordinates: {
       lat: 17.0350,
@@ -119,7 +119,7 @@ export const mapPoints: MapPoint[] = [
     },
     projectId: 'proj-10',
     status: 'Планирование',
-    description: 'Площадка развертывания мобильного комплекса',
+    description: 'Развертывание мобильных производственных комплексов',
   },
   {
     id: 'map-11',
