@@ -282,7 +282,7 @@ export const risks: Risk[] = [
     status: 'В обработке',
     mitigationPlan: 'Параллельная подача документов в оба органа, привлечение консультантов',
     owner: 'user-5',
-    detectedDate: '2024-10-15',
+    detectedDate: '2026-10-15',
   },
   {
     id: 'risk-2',
@@ -295,7 +295,7 @@ export const risks: Risk[] = [
     status: 'Выявлен',
     mitigationPlan: 'Поиск альтернативных поставщиков, корректировка графика',
     owner: 'user-6',
-    detectedDate: '2024-11-01',
+    detectedDate: '2026-11-01',
   },
   {
     id: 'risk-3',
@@ -308,7 +308,7 @@ export const risks: Risk[] = [
     status: 'В обработке',
     mitigationPlan: 'Закупка дополнительного оборудования, обучение персонала',
     owner: 'user-4',
-    detectedDate: '2024-09-20',
+    detectedDate: '2026-09-20',
   },
   {
     id: 'risk-4',
@@ -321,7 +321,7 @@ export const risks: Risk[] = [
     status: 'Выявлен',
     mitigationPlan: 'Мониторинг законодательства, консультации с юристами',
     owner: 'user-3',
-    detectedDate: '2024-10-01',
+    detectedDate: '2026-10-01',
   },
   {
     id: 'risk-5',
@@ -334,6 +334,6 @@ export const risks: Risk[] = [
     status: 'Выявлен',
     mitigationPlan: 'Программа обучения, привлечение экспертов из других проектов',
     owner: 'user-2',
-    detectedDate: '2024-10-25',
+    detectedDate: '2026-10-25',
   },
 ];

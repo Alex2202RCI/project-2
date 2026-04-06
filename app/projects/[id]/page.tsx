@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { CheckCircle2, Circle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { ProjectChat } from '@/components/custom/ProjectChat';
 
 export default function ProjectPage() {
   const params = useParams();
@@ -299,6 +300,15 @@ export default function ProjectPage() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Коммуникации проекта</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ProjectChat projectId={project.id} projectName={project.name} />
+        </CardContent>
+      </Card>
     </div>
   );
 }

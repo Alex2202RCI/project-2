@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { StatusBadge } from '@/components/custom/StatusBadge';
-import { Search } from 'lucide-react';
+import { Search, MessageSquare } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -81,7 +81,17 @@ export default function TasksPage() {
                         {project?.name} • {task.category}
                       </div>
                     </div>
-                    <StatusBadge status={task.status} />
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
+                        onClick={() => window.location.href = `/chat?task=${task.id}`}
+                      >
+                        <MessageSquare className="w-4 h-4" />
+                      </Button>
+                      <StatusBadge status={task.status} />
+                    </div>
                   </div>
                   <div className="flex items-center justify-between mt-3">
                     <span className="text-sm text-slate-500">{assignee?.name}</span>

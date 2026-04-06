@@ -17,7 +17,7 @@ export const companies: Company[] = [
   {
     id: 'comp-2',
     name: 'Ruma Organic Company',
-    type: 'Дочерняя компания',
+    type: 'Оператор',
     country: 'Мьянма',
     description: 'Производитель органической сельскохозяйственной продукции',
     contact: {
@@ -43,7 +43,7 @@ export const companies: Company[] = [
   {
     id: 'comp-4',
     name: 'RC-United Mining Company (RCM)',
-    type: 'Дочерняя компания',
+    type: 'Оператор',
     country: 'Мьянма',
     description: 'Совместная горнодобывающая компания (51% RC, 49% местный партнер МЭК)',
     contact: {
@@ -56,7 +56,7 @@ export const companies: Company[] = [
   {
     id: 'comp-5',
     name: 'Everest Unites mining company ltd',
-    type: 'Дочерняя компания',
+    type: 'Оператор',
     country: 'Мьянма',
     description: 'Совместная горнодобывающая компания с МЭК',
     contact: {
@@ -69,7 +69,7 @@ export const companies: Company[] = [
   {
     id: 'comp-6',
     name: 'RC & Star mining company ltd',
-    type: 'Дочерняя компания',
+    type: 'Оператор',
     country: 'Мьянма',
     description: 'Совместная горнодобывающая компания с МЭК',
     contact: {
@@ -108,7 +108,7 @@ export const companies: Company[] = [
   {
     id: 'comp-9',
     name: 'RC PLATFORM GROUP COMPANY LIMITED',
-    type: 'Дочерняя компания',
+    type: 'Оператор',
     country: 'Мьянма',
     description: 'Управление по инвестициям и администрированию компаний',
     contact: {
