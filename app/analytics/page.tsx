@@ -3,7 +3,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import {
   BarChart3,
   TrendingUp,
@@ -130,11 +129,11 @@ export default function AnalyticsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-600">Средний прогресс</p>
-                <p className={`text-3xl font-bold mt-1 ${getProgressColor(avgProgress)}`}>{avgProgress}%</p>
+                <p className={'text-3xl font-bold mt-1 ' + getProgressColor(avgProgress)}>{avgProgress}%</p>
                 <div className="w-24 h-1.5 bg-slate-200 rounded-full mt-2">
                   <div 
-                    className={`h-1.5 rounded-full ${getProgressBg(avgProgress)}`}
-                    style={{ width: `${avgProgress}%` }}
+                    className={'h-1.5 rounded-full ' + getProgressBg(avgProgress)}
+                    style={{ width: avgProgress + '%' }}
                   />
                 </div>
               </div>
@@ -221,14 +220,16 @@ export default function AnalyticsPage() {
                       <p className="text-sm text-slate-600">{project.description}</p>
                     </div>
                     <div className="text-right ml-4">
-                      <div className={`text-2xl font-bold ${getProgressColor(project.progress)}`}>
+                      <div className={'text-2xl font-bold ' + getProgressColor(project.progress)}>
                         {project.progress}%
                       </div>
                       <p className="text-xs text-slate-500">прогресс</p>
                     </div>
                   </div>
                   
-                  <Progress value={project.progress} className="h-2 mb-3" />
+                  <div className="w-full h-2 bg-slate-200 rounded-full mb-3">
+                    <div className={'h-2 rounded-full ' + getProgressBg(project.progress)} style={{ width: project.progress + '%' }} />
+                  </div>
                   
                   <div className="flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-2">
@@ -284,25 +285,25 @@ export default function AnalyticsPage() {
             {criticalRisks.slice(0, 4).map((alert) => (
               <div
                 key={alert.id}
-                className={`p-4 border rounded-lg ${
+                className={'p-4 border rounded-lg ' + (
                   alert.severity === 'Критический'
                     ? 'bg-red-50 border-red-200'
                     : 'bg-orange-50 border-orange-200'
-                }`}
+                )}
               >
                 <div className="flex items-start gap-3">
-                  <div className={`p-2 rounded-lg ${
+                  <div className={'p-2 rounded-lg ' + (
                     alert.severity === 'Критический' ? 'bg-red-100' : 'bg-orange-100'
-                  }`}>
-                    <AlertTriangle className={`w-5 h-5 ${
+                  )}>
+                    <AlertTriangle className={'w-5 h-5 ' + (
                       alert.severity === 'Критический' ? 'text-red-600' : 'text-orange-600'
-                    }`} />
+                    )} />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <h4 className={`font-semibold ${
-                        alert.severity === 'Критический' ? 'text-red-900' : 'text-orange-900'
-                      }`}>
+                      <h4 className={
+                        alert.severity === 'Критический' ? 'font-semibold text-red-900' : 'font-semibold text-orange-900'
+                      }>
                         {alert.title}
                       </h4>
                       <Badge className={
@@ -313,9 +314,9 @@ export default function AnalyticsPage() {
                         {alert.severity}
                       </Badge>
                     </div>
-                    <p className={`text-sm ${
-                      alert.severity === 'Критический' ? 'text-red-800' : 'text-orange-800'
-                    }`}>
+                    <p className={
+                      alert.severity === 'Критический' ? 'text-sm text-red-800' : 'text-sm text-orange-800'
+                    }>
                       {alert.description}
                     </p>
                     <div className="flex items-center gap-3 mt-2">
@@ -360,7 +361,9 @@ export default function AnalyticsPage() {
                 </div>
                 <span className="text-2xl font-bold text-green-600">{avgProgress}%</span>
               </div>
-              <Progress value={avgProgress} className="h-3" />
+              <div className="w-full h-3 bg-green-200 rounded-full">
+                <div className="h-3 bg-green-500 rounded-full" style={{ width: avgProgress + '%' }} />
+              </div>
               <p className="text-sm text-green-800 mt-3">
                 По всем проектам выполнение плана составляет {avgProgress}%. 
                 {avgProgress >= 70 
@@ -429,14 +432,14 @@ export default function AnalyticsPage() {
             {topInsights.map((insight) => (
               <div key={insight.id} className="p-4 border border-slate-200 rounded-lg hover:border-purple-200 transition-colors">
                 <div className="flex items-start gap-3">
-                  <div className={`p-2 rounded-lg ${
+                  <div className={'p-2 rounded-lg ' + (
                     insight.confidence >= 80 ? 'bg-green-100' :
                     insight.confidence >= 60 ? 'bg-blue-100' : 'bg-amber-100'
-                  }`}>
-                    <Zap className={`w-5 h-5 ${
-                      insight.confidence >= 80 ? 'text-green-600' :
-                      insight.confidence >= 60 ? 'text-blue-600' : 'text-amber-600'
-                    }`} />
+                  )}>
+                    <Zap className={
+                      insight.confidence >= 80 ? 'w-5 h-5 text-green-600' :
+                      insight.confidence >= 60 ? 'w-5 h-5 text-blue-600' : 'w-5 h-5 text-amber-600'
+                    } />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
@@ -449,17 +452,17 @@ export default function AnalyticsPage() {
                       <div className="flex items-center gap-1">
                         <div className="w-16 h-1.5 bg-slate-200 rounded-full">
                           <div 
-                            className={`h-1.5 rounded-full ${
+                            className={'h-1.5 rounded-full ' + (
                               insight.confidence >= 80 ? 'bg-green-500' :
                               insight.confidence >= 60 ? 'bg-blue-500' : 'bg-amber-500'
-                            }`}
-                            style={{ width: `${insight.confidence}%` }}
+                            )}
+                            style={{ width: insight.confidence + '%' }}
                           />
                         </div>
-                        <span className={`text-xs font-medium ${
-                          insight.confidence >= 80 ? 'text-green-600' :
-                          insight.confidence >= 60 ? 'text-blue-600' : 'text-amber-600'
-                        }`}>
+                        <span className={
+                          insight.confidence >= 80 ? 'text-xs font-medium text-green-600' :
+                          insight.confidence >= 60 ? 'text-xs font-medium text-blue-600' : 'text-xs font-medium text-amber-600'
+                        }>
                           {insight.confidence}%
                         </span>
                       </div>
@@ -523,7 +526,7 @@ export default function AnalyticsPage() {
                     Усилить контроль проекта: {exposure.projectName}
                   </p>
                   <p className="text-xs text-amber-700 mt-1">
-                    Риск: {exposure.currentRiskScore}/100 • {exposure.impactTypes.join(', ')}
+                    Риск: {exposure.currentRiskScore}/100 - {exposure.impactTypes.join(', ')}
                   </p>
                 </div>
                 <Badge className="bg-amber-100 text-amber-800">Высокий риск</Badge>
