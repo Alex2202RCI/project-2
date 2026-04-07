@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
 import {
   ClipboardList,
   CheckCircle,
@@ -15,15 +16,30 @@ import {
   Brain,
   ArrowRight,
   Calendar,
+  Target,
+  Zap,
+  BarChart3,
+  PieChart,
+  Activity,
+  Shield,
+  AlertCircle,
+  Info,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
+import { useState } from 'react';
 import {
   decisionLog,
   aiInsights,
+  riskAlerts,
+  projectExposures,
   getVerificationStatusColor,
 } from '@/mock-data/myanmar-intelligence';
 import Link from 'next/link';
 
 export default function DecisionsPage() {
+  const [expandedInsight, setExpandedInsight] = useState<string | null>(null);
+
   // Статистика решений
   const confirmedDecisions = decisionLog.filter(d => d.decision === 'Подтверждено');
   const rejectedDecisions = decisionLog.filter(d => d.decision === 'Отклонено');
@@ -33,6 +49,21 @@ export default function DecisionsPage() {
   const pendingInsights = aiInsights.filter(i => i.reviewStatus === 'Ожидает');
   const acceptedInsights = aiInsights.filter(i => i.reviewStatus === 'Принято');
   const rejectedInsights = aiInsights.filter(i => i.reviewStatus === 'Отклонено');
+
+  // Статистика по категориям инсайтов
+  const insightsByCategory = aiInsights.reduce((acc, insight) => {
+    acc[insight.category] = (acc[insight.category] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  // Средняя уверенность AI
+  const avgConfidence = Math.round(aiInsights.reduce((sum, i) => sum + i.confidence, 0) / aiInsights.length);
+
+  // Критические алерты
+  const criticalAlerts = riskAlerts.filter(a => a.severity === 'Критический' || a.severity === 'Высокий');
+
+  // Проекты с высоким риском
+  const highRiskProjects = projectExposures.filter(p => p.currentRiskScore >= 60);
 
   const getDecisionIcon = (decision: string) => {
     switch (decision) {
@@ -74,10 +105,44 @@ export default function DecisionsPage() {
   };
 
   const getConfidenceColor = (confidence: number) => {
+    if (confidence >= 80) return 'text-green-600';
+    if (confidence >= 60) return 'text-blue-600';
+    if (confidence >= 40) return 'text-amber-600';
+    return 'text-red-600';
+  };
+
+  const getConfidenceBg = (confidence: number) => {
     if (confidence >= 80) return 'bg-green-500';
     if (confidence >= 60) return 'bg-blue-500';
     if (confidence >= 40) return 'bg-amber-500';
     return 'bg-red-500';
+  };
+
+  const getRiskScoreColor = (score: number) => {
+    if (score >= 80) return 'text-red-600';
+    if (score >= 60) return 'text-orange-600';
+    if (score >= 40) return 'text-amber-600';
+    return 'text-green-600';
+  };
+
+  const getRiskBgColor = (score: number) => {
+    if (score >= 80) return 'bg-red-500';
+    if (score >= 60) return 'bg-orange-500';
+    if (score >= 40) return 'bg-amber-500';
+    return 'bg-green-500';
+  };
+
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'Макроэкономика':
+        return <BarChart3 className="w-4 h-4" />;
+      case 'Логистика':
+        return <Target className="w-4 h-4" />;
+      case 'Региональный анализ':
+        return <PieChart className="w-4 h-4" />;
+      default:
+        return <Brain className="w-4 h-4" />;
+    }
   };
 
   return (
@@ -89,56 +154,386 @@ export default function DecisionsPage() {
           <span>/</span>
           <Link href="/analytics/myanmar" className="hover:text-slate-700">Мониторинг Мьянмы</Link>
           <span>/</span>
-          <span className="text-slate-900">Журнал решений</span>
+          <span className="text-slate-900">AI-инсайты и решения</span>
         </div>
-        <h1 className="text-2xl font-bold text-slate-900">Журнал решений</h1>
+        <h1 className="text-2xl font-bold text-slate-900">AI-инсайты и решения</h1>
         <p className="text-slate-600 mt-1">
-          История решений по сигналам и рекомендациям AI-аналитики
+          Аналитика на основе искусственного интеллекта и журнал принятых решений
         </p>
       </div>
 
-      {/* Статистика */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* KPI карточки */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="border-l-4 border-l-purple-500">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-slate-600">Точность AI</p>
+                <p className="text-3xl font-bold text-purple-600 mt-1">{avgConfidence}%</p>
+                <div className="flex items-center gap-1 mt-1">
+                  <TrendingUp className="w-3 h-3 text-green-600" />
+                  <span className="text-xs text-green-600">+5% за месяц</span>
+                </div>
+              </div>
+              <div className="p-3 bg-purple-100 rounded-lg">
+                <Brain className="w-6 h-6 text-purple-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <Card className="border-l-4 border-l-green-500">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-slate-600">Подтверждено</p>
+                <p className="text-sm font-medium text-slate-600">Принято решений</p>
                 <p className="text-3xl font-bold text-green-600 mt-1">{confirmedDecisions.length}</p>
+                <p className="text-xs text-slate-500 mt-1">из {decisionLog.length} всего</p>
               </div>
-              <CheckCircle className="w-8 h-8 text-green-200" />
+              <div className="p-3 bg-green-100 rounded-lg">
+                <CheckCircle className="w-6 h-6 text-green-600" />
+              </div>
             </div>
           </CardContent>
         </Card>
-        <Card className="border-l-4 border-l-red-500">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-slate-600">Отклонено</p>
-                <p className="text-3xl font-bold text-red-600 mt-1">{rejectedDecisions.length}</p>
-              </div>
-              <XCircle className="w-8 h-8 text-red-200" />
-            </div>
-          </CardContent>
-        </Card>
+
         <Card className="border-l-4 border-l-amber-500">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-slate-600">Ожидает решения</p>
-                <p className="text-3xl font-bold text-amber-600 mt-1">{pendingDecisions.length}</p>
+                <p className="text-sm font-medium text-slate-600">Ожидают решения</p>
+                <p className="text-3xl font-bold text-amber-600 mt-1">{pendingDecisions.length + pendingInsights.length}</p>
+                <p className="text-xs text-slate-500 mt-1">требуют внимания</p>
               </div>
-              <Clock className="w-8 h-8 text-amber-200" />
+              <div className="p-3 bg-amber-100 rounded-lg">
+                <Clock className="w-6 h-6 text-amber-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-l-4 border-l-red-500">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-slate-600">Критических рисков</p>
+                <p className="text-3xl font-bold text-red-600 mt-1">{criticalAlerts.length}</p>
+                <p className="text-xs text-slate-500 mt-1">требуют действий</p>
+              </div>
+              <div className="p-3 bg-red-100 rounded-lg">
+                <AlertTriangle className="w-6 h-6 text-red-600" />
+              </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <Tabs defaultValue="decisions" className="space-y-4">
+      {/* Визуализация данных */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Распределение AI-инсайтов по категориям */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <PieChart className="w-5 h-5 text-purple-600" />
+              Распределение инсайтов по категориям
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {Object.entries(insightsByCategory).map(([category, count]) => {
+                const percentage = Math.round((count / aiInsights.length) * 100);
+                return (
+                  <div key={category} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        {getCategoryIcon(category)}
+                        <span className="text-sm font-medium text-slate-700">{category}</span>
+                      </div>
+                      <span className="text-sm font-semibold text-slate-900">{count} ({percentage}%)</span>
+                    </div>
+                    <Progress value={percentage} className="h-2" />
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Уровень риска по проектам */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Activity className="w-5 h-5 text-red-600" />
+              Уровень риска по проектам
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {projectExposures.slice(0, 5).map((project) => (
+                <div key={project.id} className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-sm font-medium text-slate-700">{project.projectCode}</span>
+                      <span className="text-xs text-slate-500 ml-2">{project.region}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-lg font-bold ${getRiskScoreColor(project.currentRiskScore)}`}>
+                        {project.currentRiskScore}
+                      </span>
+                      {project.riskChange7d > 0 ? (
+                        <span className="text-xs text-red-600 flex items-center gap-0.5">
+                          <TrendingUp className="w-3 h-3" />
+                          +{project.riskChange7d}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-green-600 flex items-center gap-0.5">
+                          <TrendingDown className="w-3 h-3" />
+                          {project.riskChange7d}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <Progress value={project.currentRiskScore} className="h-2" />
+                    <div 
+                      className="absolute top-0 left-0 h-2 rounded-full opacity-50"
+                      style={{ 
+                        width: `${project.currentRiskScore}%`,
+                        backgroundColor: getRiskBgColor(project.currentRiskScore)
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Статистика решений */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <ClipboardList className="w-5 h-5" />
+            Статистика решений
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center p-4 bg-green-50 rounded-lg">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-3">
+                <CheckCircle className="w-6 h-6 text-green-600" />
+              </div>
+              <p className="text-3xl font-bold text-green-600">{confirmedDecisions.length}</p>
+              <p className="text-sm text-slate-600 mt-1">Подтверждено</p>
+              <p className="text-xs text-slate-500 mt-1">
+                {Math.round((confirmedDecisions.length / decisionLog.length) * 100)}% от общего числа
+              </p>
+            </div>
+            <div className="text-center p-4 bg-red-50 rounded-lg">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-red-100 rounded-full mb-3">
+                <XCircle className="w-6 h-6 text-red-600" />
+              </div>
+              <p className="text-3xl font-bold text-red-600">{rejectedDecisions.length}</p>
+              <p className="text-sm text-slate-600 mt-1">Отклонено</p>
+              <p className="text-xs text-slate-500 mt-1">
+                {Math.round((rejectedDecisions.length / decisionLog.length) * 100)}% от общего числа
+              </p>
+            </div>
+            <div className="text-center p-4 bg-amber-50 rounded-lg">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-amber-100 rounded-full mb-3">
+                <Clock className="w-6 h-6 text-amber-600" />
+              </div>
+              <p className="text-3xl font-bold text-amber-600">{pendingDecisions.length}</p>
+              <p className="text-sm text-slate-600 mt-1">Ожидает решения</p>
+              <p className="text-xs text-slate-500 mt-1">
+                {Math.round((pendingDecisions.length / decisionLog.length) * 100)}% от общего числа
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Tabs defaultValue="insights" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="decisions">Журнал решений</TabsTrigger>
-          <TabsTrigger value="insights">AI-инсайты</TabsTrigger>
+          <TabsTrigger value="insights" className="flex items-center gap-2">
+            <Brain className="w-4 h-4" />
+            AI-инсайты
+            {pendingInsights.length > 0 && (
+              <Badge className="bg-amber-100 text-amber-800 text-xs">{pendingInsights.length}</Badge>
+            )}
+          </TabsTrigger>
+          <TabsTrigger value="decisions" className="flex items-center gap-2">
+            <ClipboardList className="w-4 h-4" />
+            Журнал решений
+          </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="insights">
+          <div className="space-y-4">
+            {aiInsights.map((insight) => (
+              <Card key={insight.id} className="overflow-hidden">
+                <CardContent className="p-0">
+                  {/* Заголовок инсайта */}
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className={`p-2 rounded-lg ${
+                            insight.confidence >= 80 ? 'bg-green-100' :
+                            insight.confidence >= 60 ? 'bg-blue-100' :
+                            insight.confidence >= 40 ? 'bg-amber-100' : 'bg-red-100'
+                          }`}>
+                            {getCategoryIcon(insight.category)}
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-slate-900 text-lg">{insight.title}</h4>
+                            <div className="flex items-center gap-3 mt-1">
+                              <Badge className={getInsightBadgeColor(insight.reviewStatus || 'Ожидает')}>
+                                {insight.reviewStatus || 'Ожидает'}
+                              </Badge>
+                              <Badge variant="outline" className="text-xs">{insight.category}</Badge>
+                              <span className="text-xs text-slate-500 flex items-center gap-1">
+                                <Calendar className="w-3 h-3" />
+                                {new Date(insight.timestamp).toLocaleDateString('ru-RU')}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <p className="text-sm text-slate-600">{insight.description}</p>
+                      </div>
+                      
+                      {/* Уверенность */}
+                      <div className="text-center ml-4">
+                        <div className={`text-2xl font-bold ${getConfidenceColor(insight.confidence)}`}>
+                          {insight.confidence}%
+                        </div>
+                        <p className="text-xs text-slate-500">уверенность</p>
+                        <div className="w-16 h-1.5 bg-slate-200 rounded-full mt-1">
+                          <div 
+                            className={`h-1.5 rounded-full ${getConfidenceBg(insight.confidence)}`}
+                            style={{ width: `${insight.confidence}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Гипотеза */}
+                    <div className="p-4 bg-purple-50 rounded-lg mb-4">
+                      <div className="flex items-start gap-2">
+                        <Zap className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-purple-800">Гипотеза:</p>
+                          <p className="text-sm text-slate-700 mt-1">{insight.hypothesis}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Рекомендуемые действия */}
+                    <div className="mb-4">
+                      <p className="text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
+                        <Target className="w-4 h-4" />
+                        Рекомендуемые действия:
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {insight.recommendedActions.map((action, i) => (
+                          <div key={i} className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 rounded-full text-sm text-slate-700">
+                            <ArrowRight className="w-3 h-3" />
+                            {action}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Кнопка развернуть */}
+                    <button
+                      onClick={() => setExpandedInsight(expandedInsight === insight.id ? null : insight.id)}
+                      className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700 transition-colors"
+                    >
+                      {expandedInsight === insight.id ? (
+                        <>
+                          <ChevronUp className="w-4 h-4" />
+                          Скрыть детали
+                        </>
+                      ) : (
+                        <>
+                          <ChevronDown className="w-4 h-4" />
+                          Показать детали ({insight.basedOnSources.length} источников)
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Развернутые детали */}
+                  {expandedInsight === insight.id && (
+                    <div className="border-t border-slate-100 p-6 bg-slate-50">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Подтверждающие факты */}
+                        <div>
+                          <h5 className="text-sm font-semibold text-green-700 mb-3 flex items-center gap-2">
+                            <CheckCircle className="w-4 h-4" />
+                            Подтверждающие факты
+                          </h5>
+                          <ul className="space-y-2">
+                            {insight.supportingEvidence.map((evidence, i) => (
+                              <li key={i} className="flex items-start gap-2 text-sm text-slate-600 bg-white p-2 rounded">
+                                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                                {evidence}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        
+                        {/* Противоречивые факты */}
+                        <div>
+                          <h5 className="text-sm font-semibold text-red-700 mb-3 flex items-center gap-2">
+                            <AlertTriangle className="w-4 h-4" />
+                            Противоречивые факты
+                          </h5>
+                          <ul className="space-y-2">
+                            {insight.contradictingEvidence.map((evidence, i) => (
+                              <li key={i} className="flex items-start gap-2 text-sm text-slate-600 bg-white p-2 rounded">
+                                <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                                {evidence}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      {/* Источники */}
+                      <div className="mt-6">
+                        <h5 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                          <Info className="w-4 h-4" />
+                          Источники данных
+                        </h5>
+                        <div className="flex flex-wrap gap-2">
+                          {insight.basedOnSources.map((sourceId) => (
+                            <Badge key={sourceId} variant="outline" className="text-xs">
+                              {sourceId}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Требуется проверка */}
+                      {insight.humanReviewRequired && (
+                        <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                          <div className="flex items-center gap-2">
+                            <Shield className="w-5 h-5 text-amber-600" />
+                            <span className="text-sm font-medium text-amber-800">
+                              Требуется проверка аналитика
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
 
         <TabsContent value="decisions">
           <Card>
@@ -249,107 +644,6 @@ export default function DecisionsPage() {
                         )}
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="insights">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Brain className="w-5 h-5" />
-                AI-инсайты
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {aiInsights.map((insight) => (
-                  <div key={insight.id} className="p-4 border border-slate-200 rounded-lg">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3">
-                          <h4 className="font-semibold text-slate-900">{insight.title}</h4>
-                          <Badge className={getInsightBadgeColor(insight.reviewStatus || 'Ожидает')}>
-                            {insight.reviewStatus || 'Ожидает'}
-                          </Badge>
-                          <Badge variant="outline">{insight.category}</Badge>
-                        </div>
-                        <p className="text-sm text-slate-600 mt-2">{insight.description}</p>
-                      </div>
-                      <div className="text-right">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-slate-500">Уверенность:</span>
-                          <span className="font-bold text-slate-900">{insight.confidence}%</span>
-                        </div>
-                        <div className="w-20 h-2 bg-slate-200 rounded-full mt-1">
-                          <div 
-                            className={`h-2 rounded-full ${getConfidenceColor(insight.confidence)}`}
-                            style={{ width: `${insight.confidence}%` }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="mt-4 p-3 bg-purple-50 rounded-lg">
-                      <p className="text-sm font-medium text-purple-800">Гипотеза:</p>
-                      <p className="text-sm text-slate-700 mt-1">{insight.hypothesis}</p>
-                    </div>
-                    
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm font-medium text-green-800 mb-2">Подтверждающие факты:</p>
-                        <ul className="space-y-2">
-                          {insight.supportingEvidence.map((evidence, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                              <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                              {evidence}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-red-800 mb-2">Противоречивые факты:</p>
-                        <ul className="space-y-2">
-                          {insight.contradictingEvidence.map((evidence, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                              <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                              {evidence}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                    
-                    <div className="mt-4">
-                      <p className="text-sm font-medium text-slate-700 mb-2">Рекомендуемые действия:</p>
-                      <div className="flex flex-wrap gap-2">
-                        {insight.recommendedActions.map((action, i) => (
-                          <div key={i} className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 rounded-full text-sm text-slate-700">
-                            <ArrowRight className="w-4 h-4" />
-                            {action}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="mt-4 flex items-center justify-between text-sm text-slate-500">
-                      <span>Основано на {insight.basedOnSources.length} источниках</span>
-                      <span>{new Date(insight.timestamp).toLocaleString('ru-RU')}</span>
-                    </div>
-                    
-                    {insight.humanReviewRequired && (
-                      <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                        <div className="flex items-center gap-2">
-                          <AlertTriangle className="w-5 h-5 text-amber-600" />
-                          <span className="text-sm font-medium text-amber-800">
-                            Требуется проверка аналитика
-                          </span>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
