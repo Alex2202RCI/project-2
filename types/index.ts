@@ -87,7 +87,11 @@ export type DocumentType =
   | 'Техническая документация'
   | 'Сертификат'
   | 'Переписка'
-  | 'Скан/фото';
+  | 'Скан/фото'
+  | 'Меморандум'
+  | 'Правовая база'
+  | 'Лицензия'
+  | 'Соглашение';
 
 export type DocumentAccessLevel = 'Public' | 'Confidential' | 'Strictly Confidential';
 
