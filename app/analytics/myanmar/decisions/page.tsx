@@ -3,7 +3,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Progress } from '@/components/ui/progress';
 import {
   ClipboardList,
   CheckCircle,
@@ -251,7 +250,9 @@ export default function DecisionsPage() {
                       </div>
                       <span className="text-sm font-semibold text-slate-900">{count} ({percentage}%)</span>
                     </div>
-                    <Progress value={percentage} className="h-2" />
+                    <div className="w-full h-2 bg-slate-200 rounded-full">
+                      <div className="h-2 bg-purple-500 rounded-full" style={{ width: percentage + '%' }} />
+                    </div>
                   </div>
                 );
               })}
@@ -294,7 +295,9 @@ export default function DecisionsPage() {
                     </div>
                   </div>
                   <div className="relative">
-                    <Progress value={project.currentRiskScore} className="h-2" />
+                    <div className="w-full h-2 bg-slate-200 rounded-full">
+                      <div className="h-2 rounded-full" style={{ width: project.currentRiskScore + '%', backgroundColor: getRiskBgColor(project.currentRiskScore) }} />
+                    </div>
                   </div>
                 </div>
               ))}
