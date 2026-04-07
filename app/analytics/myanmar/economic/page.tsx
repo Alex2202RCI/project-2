@@ -20,13 +20,18 @@ import {
   projectExposures, 
   getVerificationStatusColor 
 } from '@/mock-data/myanmar-intelligence';
-import { useAppStore, isAuthorized } from '@/auth'; // Add auth imports
+import { useAppStore } from '@/store/useAppStore';
 import Link from 'next/link';
 
 export default function EconomicPage() {
   const store = useAppStore();
-  // Add role-based access check
-  if (!store.user?.role || !isAuthorized(store.user.role, { analytics: 'read' })) {
+  // Find role for current user
+  const userRole = store.currentUser 
+    ? store.roles.find(r => r.id === store.currentUser?.roleId) 
+    : null;
+  // Simple role check for analytics access
+  const hasAccess = userRole && userRole.permissions.analytics !== 'none';
+  if (!hasAccess) {
     return <div className="flex items-center justify-center p-8 bg-gray-50 text-gray-600">
       <h3>Доступ запрещен</h3>
       <p>Для просмотра этого дашборда требуется минимальные разрешения 'read' в аналитике.</p>
