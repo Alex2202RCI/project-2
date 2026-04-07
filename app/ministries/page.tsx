@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Ministry, MinistryCommunication, MinistryAgreement } from '@/types';
+import { MinistryChat } from '@/components/custom/MinistryChat';
 
 const cooperationLevelColors: Record<string, string> = {
   'Стратегический партнер': 'bg-emerald-100 text-emerald-800',
@@ -57,7 +58,7 @@ const agreementStatusColors: Record<string, string> = {
   'Расторгнут': 'bg-red-100 text-red-800',
 };
 
-function MinistryCard({ ministry }: { ministry: Ministry }) {
+function MinistryCard({ ministry, onChatOpen }: { ministry: Ministry; onChatOpen: () => void }) {
   return (
     <Card className="hover:shadow-md transition-shadow">
       <CardHeader>
@@ -121,16 +122,10 @@ function MinistryCard({ ministry }: { ministry: Ministry }) {
           </div>
         )}
 
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="flex-1">
-            <ArrowUpRight className="w-4 h-4 mr-1" />
-            Подробнее
-          </Button>
-          <Button size="sm" className="flex-1">
-            <MessageSquare className="w-4 h-4 mr-1" />
-            Написать
-          </Button>
-        </div>
+        <Button size="sm" className="w-full" onClick={onChatOpen}>
+          <MessageSquare className="w-4 h-4 mr-2" />
+          Написать
+        </Button>
       </CardContent>
     </Card>
   );
@@ -165,6 +160,7 @@ export default function MinistriesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [cooperationFilter, setCooperationFilter] = useState<string>('all');
   const [activeTab, setActiveTab] = useState('ministries');
+  const [selectedMinistry, setSelectedMinistry] = useState<Ministry | null>(null);
 
   const filteredMinistries = ministries.filter((ministry) => {
     const matchesSearch =
@@ -291,7 +287,11 @@ export default function MinistriesPage() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filteredMinistries.map((ministry) => (
-                  <MinistryCard key={ministry.id} ministry={ministry} />
+                  <MinistryCard
+                    key={ministry.id}
+                    ministry={ministry}
+                    onChatOpen={() => setSelectedMinistry(ministry)}
+                  />
                 ))}
               </div>
             </CardContent>
@@ -395,6 +395,15 @@ export default function MinistriesPage() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Чат с министерством */}
+      {selectedMinistry && (
+        <MinistryChat
+          ministry={selectedMinistry}
+          agreements={agreements.filter((a) => a.ministryId === selectedMinistry.id)}
+          onClose={() => setSelectedMinistry(null)}
+        />
+      )}
     </div>
   );
 }
