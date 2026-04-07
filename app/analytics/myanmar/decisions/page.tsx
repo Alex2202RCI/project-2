@@ -295,13 +295,6 @@ export default function DecisionsPage() {
                   </div>
                   <div className="relative">
                     <Progress value={project.currentRiskScore} className="h-2" />
-                    <div 
-                      className="absolute top-0 left-0 h-2 rounded-full opacity-50"
-                      style={{ 
-                        width: `${project.currentRiskScore}%`,
-                        backgroundColor: getRiskBgColor(project.currentRiskScore)
-                      }}
-                    />
                   </div>
                 </div>
               ))}
@@ -412,7 +405,7 @@ export default function DecisionsPage() {
                         <div className="w-16 h-1.5 bg-slate-200 rounded-full mt-1">
                           <div 
                             className={`h-1.5 rounded-full ${getConfidenceBg(insight.confidence)}`}
-                            style={{ width: `${insight.confidence}%` }}
+                            style={{ width: insight.confidence + '%' }}
                           />
                         </div>
                       </div>
