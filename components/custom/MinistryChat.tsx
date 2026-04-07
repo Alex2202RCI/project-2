@@ -102,7 +102,8 @@ export function MinistryChat({ ministry, agreements, onClose }: MinistryChatProp
   };
 
   return (
-    <Card className="fixed right-4 top-20 w-[480px] h-[calc(100vh-120px)] z-50 shadow-2xl border border-slate-200 flex flex-col">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center" onClick={onClose}>
+      <Card className="w-[480px] h-[calc(100vh-120px)] shadow-2xl border border-slate-200 flex flex-col" onClick={(e) => e.stopPropagation()}>
       {/* Заголовок */}
       <CardHeader className="pb-3 border-b border-slate-100 flex-shrink-0">
         <div className="flex items-center justify-between">
@@ -335,5 +336,6 @@ export function MinistryChat({ ministry, agreements, onClose }: MinistryChatProp
         </TabsContent>
       </Tabs>
     </Card>
+    </div>
   );
 }
