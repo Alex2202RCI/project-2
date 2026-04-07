@@ -1,7 +1,7 @@
 'use client';
 
 import { KPICard } from '@/components/custom/KPICard';
-import { MyanmarMap } from '@/components/custom/MyanmarMap';
+import { InteractiveMyanmarMap } from '@/components/custom/InteractiveMyanmarMap';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAppStore } from '@/store/useAppStore';
 import {
@@ -77,7 +77,7 @@ export default function Home() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <MyanmarMap points={mapPoints} />
+          <InteractiveMyanmarMap points={mapPoints} />
         </div>
 
         <div className="space-y-6">
