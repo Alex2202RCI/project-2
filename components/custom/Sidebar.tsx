@@ -21,6 +21,7 @@ import {
   AlertTriangle,
   Database,
   FileCheck,
+  Landmark,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -30,6 +31,7 @@ const navigation = [
   { name: 'Проекты', href: '/projects', icon: FolderKanban },
   { name: 'Задачи', href: '/tasks', icon: CheckSquare },
   { name: 'Компании', href: '/companies', icon: Building2 },
+  { name: 'Министерства', href: '/ministries', icon: Landmark },
   { name: 'Продукты', href: '/products', icon: Package },
   { name: 'Документы', href: '/documents', icon: FileText },
   { 

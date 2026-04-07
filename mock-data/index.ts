@@ -6,3 +6,4 @@ export * from './events';
 export * from './products';
 export * from './documents';
 export * from './users';
+export * from './ministries';
