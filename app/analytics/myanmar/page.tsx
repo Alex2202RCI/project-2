@@ -27,10 +27,11 @@ import {
   getVerificationStatusColor,
 } from '@/mock-data/myanmar-intelligence';
 import { useAppStore } from '@/store/useAppStore';
+import { InteractiveMyanmarMap } from '@/components/custom/InteractiveMyanmarMap';
 import Link from 'next/link';
 
 export default function MyanmarOverviewPage() {
-  const { projects } = useAppStore();
+  const { projects, mapPoints } = useAppStore();
   const snapshot = countryRiskSnapshot;
 
   const affectedProjects = projects.filter(p => 
@@ -118,6 +119,9 @@ export default function MyanmarOverviewPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Интерактивная карта */}
+      <InteractiveMyanmarMap points={mapPoints} />
 
       {/* Ключевые сигналы недели */}
       <Card>

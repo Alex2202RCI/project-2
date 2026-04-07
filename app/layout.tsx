@@ -15,6 +15,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru" suppressHydrationWarning>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossOrigin=""
+        />
+      </head>
       <body className="font-sans antialiased">
         <div className="flex h-screen bg-slate-50">
           <Sidebar />
