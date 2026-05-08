@@ -1,1 +1,1 @@
-'Создаем netlify.toml'; echo '[build] command = "npm run build" publish = "dist"' ;
+'[build] command = "npm run build" publish = "dist"' 
