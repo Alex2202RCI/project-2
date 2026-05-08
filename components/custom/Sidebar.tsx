@@ -22,6 +22,7 @@ import {
   Database,
   FileCheck,
   Landmark,
+  Mountain,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -29,6 +30,7 @@ const navigation = [
   { name: 'Главная', href: '/', icon: Home },
   { name: 'Чат', href: '/chat', icon: MessageSquare },
   { name: 'Проекты', href: '/projects', icon: FolderKanban },
+  { name: 'Геологоразведка', href: '/mining', icon: Mountain },
   { name: 'Задачи', href: '/tasks', icon: CheckSquare },
   { name: 'Компании', href: '/companies', icon: Building2 },
   { name: 'Министерства', href: '/ministries', icon: Landmark },
