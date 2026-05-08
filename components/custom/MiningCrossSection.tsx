@@ -252,17 +252,24 @@ export function MiningCrossSection({ drillHoles, minerals, depth, siteName }: Mi
 
             {/* Шкала глубины слева */}
             <g>
-              {Array.from({ length: Math.ceil(maxDepth / 50) + 1 }, (_, i) => i * 50).map((d) => {
-                const y = getY(d);
-                return (
-                  <g key={d}>
-                    <line x1={paddingLeft - 10} y1={y} x2={paddingLeft} y2={y} stroke="#333" strokeWidth="2" />
-                    <text x={paddingLeft - 15} y={y + 4} fill="#333" fontSize="12" textAnchor="end" fontWeight="bold">
-                      {d}м
-                    </text>
-                  </g>
-                );
-              })}
+              {(() => {
+                const depthMarkers = [];
+                const numMarkers = Math.ceil(maxDepth / 50) + 1;
+                for (let i = 0; i < numMarkers; i++) {
+                  depthMarkers.push(i * 50);
+                }
+                return depthMarkers.map((d) => {
+                  const y = getY(d);
+                  return (
+                    <g key={d}>
+                      <line x1={paddingLeft - 10} y1={y} x2={paddingLeft} y2={y} stroke="#333" strokeWidth="2" />
+                      <text x={paddingLeft - 15} y={y + 4} fill="#333" fontSize="12" textAnchor="end">
+                        {d}м
+                      </text>
+                    </g>
+                  );
+                });
+              })()}
             </g>
 
             {/* Легенда минералов */}

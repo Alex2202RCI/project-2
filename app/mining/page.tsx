@@ -262,17 +262,20 @@ export default function MiningPage() {
                       { label: 'Стоимость тонны', value: `$${site.metrics.costPerTon}`, icon: DollarSign },
                       { label: 'IRR (доходность)', value: `${site.metrics.internalRateOfReturn}%`, icon: TrendingUp },
                       { label: 'Окупаемость', value: `${site.metrics.paybackPeriod} мес.`, icon: Clock },
-                    ].map((metric, idx) => (
-                      <Card key={idx} className="bg-slate-50">
-                        <CardContent className="p-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <metric.icon className="w-5 h-5 text-slate-600" />
-                            <span className="text-sm text-slate-600">{metric.label}</span>
-                          </div>
-                          <p className="text-2xl font-bold text-slate-900">{metric.value}</p>
-                        </CardContent>
-                      </Card>
-                    ))}
+                    ].map((metric, idx) => {
+                      const { icon: Icon, label, value } = metric;
+                      return (
+                        <Card key={idx} className="bg-slate-50">
+                          <CardContent className="p-4">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Icon className="w-5 h-5 text-slate-600" />
+                              <span className="text-sm text-slate-600">{label}</span>
+                            </div>
+                            <p className="text-2xl font-bold text-slate-900">{value}</p>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
                   </div>
 
                   <Card>
